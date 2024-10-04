@@ -1,0 +1,19 @@
+import "objidl.idl";
+
+
+[
+  uuid (45786100-1111-2222-3333-445500000001),
+  version(1.0),
+] interface IExaDemo : IUnknown
+{
+    HRESULT add(
+        [in] unsigned int x,
+        [in] unsigned int y,
+        [out] unsigned int *res
+    );
+
+    HRESULT print(
+        [in][string] wchar_t* msg);
+
+
+};
