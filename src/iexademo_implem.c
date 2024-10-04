@@ -10,6 +10,8 @@
 // https://www.codeproject.com/Articles/13601/COM-in-plain-C#CLASS
 // https://learn.microsoft.com/en-us/previous-versions/windows/desktop/automat/hello-sample
 
+extern CLSID CLSID_ExaDemoSrv; // Exported by iexademo_i.c due to presence as coclass in IDL file
+
 BOOL DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved) {
    switch (reason) {
     case DLL_PROCESS_ATTACH:
@@ -203,13 +205,6 @@ static IClassFactory MyFactory = {&MyFactoryVtble};
 
 HANDLE g_hEvent;
 
-#define MIDL_DEFINE_GUID(type,name,l,w1,w2,b1,b2,b3,b4,b5,b6,b7,b8) \
-        const type name = {l,w1,w2,{b1,b2,b3,b4,b5,b6,b7,b8}}
-
-MIDL_DEFINE_GUID(IID, TestIID,0x43434343,0x4343,0x4343,0x43,0x43,0x43,0x43,0x43,0x43,0x43,0x43);
-
-#undef MIDL_DEFINE_GUID
-
 int main(int argc, char *argv[]) {
     CLSID factoryClsId;
     DWORD dwRegister = 0;
@@ -234,7 +229,7 @@ int main(int argc, char *argv[]) {
         // return 1;
     // }
 
-    StringFromCLSID(&TestIID, &x);
+    StringFromCLSID(&CLSID_ExaDemoSrv, &x);
     printf("[" __FUNCTION__ "] * factoryClsId: %ws !\n", x);
 
     // Initialize COM
@@ -245,7 +240,7 @@ int main(int argc, char *argv[]) {
 
     // Register our const factory !
     // CoRegisterClassObject(factoryClsId, MyFactory, CLSCTX_LOCAL_SERVER, REGCLS_SUSPENDED|REGCLS_MULTIPLEUSE, &dwRegister);
-    CoRegisterClassObject(&TestIID, &MyFactory, CLSCTX_LOCAL_SERVER, REGCLS_MULTIPLEUSE, &dwRegister);
+    CoRegisterClassObject(&CLSID_ExaDemoSrv, &MyFactory, CLSCTX_LOCAL_SERVER, REGCLS_MULTIPLEUSE, &dwRegister);
     printf("[" __FUNCTION__ "] Register: %d\n", dwRegister);
 
     printf("[" __FUNCTION__ "] Going to wait !\n");

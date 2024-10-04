@@ -42,7 +42,7 @@ all: $(SERVER_EXE) $(PROXY_DLL)
     @echo Generated $(SERVER_EXE)
     @echo Generated $(PROXY_DLL)
 
-server:
+server: $(SERVER_EXE)
     @echo Generated $(SERVER_EXE)
 
 proxy: $(PROXY_DLL)
@@ -66,10 +66,10 @@ $(TARGETDIR)\iexademo_i.obj : $(MIDL_OUT_I)
 $(PROXY_DLL) : $(PROXYSTUBOBJS) $(PROXY_DEF)
     link /dll /out:$(PROXY_DLL) /def:$(PROXY_DEF) $(PROXYSTUBOBJS) $(PROXYSTUBLIBS)
 
-
 # Common rules
-$(MIDL_OUTPUT): $(MIDL_SRC) $(TARGETDIR)
-    midl /out $(TARGETDIR) $**
+$(MIDL_OUTPUT): $(TARGETDIR) $(MIDL_SRC)
+    midl /out $(TARGETDIR) $(MIDL_SRC)
+
 # Create target directory
 $(TARGETDIR):
     mkdir $(TARGETDIR)

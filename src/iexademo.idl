@@ -17,3 +17,12 @@ import "objidl.idl";
 
 
 };
+
+[
+    uuid(45786100-4343-4343-4343-434343434343),
+    version(1.0)
+]
+coclass ExaDemoSrv
+{
+    interface IExaDemo;
+}
