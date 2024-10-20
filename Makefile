@@ -27,6 +27,7 @@ MIDL_OUT_DLLDATA_C=$(TARGETDIR)\dlldata.c
 
 MIDL_OUTPUT=$(MIDL_OUT_H) $(MIDL_OUT_I) $(MIDL_OUT_P) $(MIDL_OUT_DLLDATA_C)
 
+#Variables for proxy generated
 PROXYSTUBOBJS = $(TARGETDIR)\dlldata.obj $(TARGETDIR)\iexademo_p.obj $(TARGETDIR)\iexademo_i.obj
 PROXYSTUBLIBS = kernel32.lib rpcns4.lib rpcrt4.lib uuid.lib
 
@@ -34,22 +35,38 @@ PROXYSTUBLIBS = kernel32.lib rpcns4.lib rpcrt4.lib uuid.lib
 SERVER_EXE=$(TARGETDIR)\IExaDemo_server$(SUFFIX).exe
 PROXY_DLL=$(TARGETDIR)\IExaDemo_proxy$(SUFFIX).dll
 
-#Variables for proxy generated
 
-# Add all output of midl ?
+
+# This target compile but do not install
 
 all: $(SERVER_EXE) $(PROXY_DLL)
     @echo Generated $(SERVER_EXE)
     @echo Generated $(PROXY_DLL)
+
+clean:
+    rmdir /S /Q dist
+
+install: install_server install_proxy
+    @echo COM Installation done !
+
+# Installation rules
+
+install_server: $(SERVER_EXE)
+    reg add "HKEY_CLASSES_ROOT\CLSID\{45786100-4343-4343-4343-434343434343}\LocalServer32" /d $(MAKEDIR)\$(SERVER_EXE)
+    @echo COM Server $(SERVER_EXE) installed !
+
+
+install_proxy: $(PROXY_DLL)
+    regsvr32 $(PROXY_DLL)
+    @echo Proxy DLL $(PROXY_DLL) installed !
+
+# Building rules
 
 server: $(SERVER_EXE)
     @echo Generated $(SERVER_EXE)
 
 proxy: $(PROXY_DLL)
     @echo Generated $(PROXY_DLL)
-
-clean:
-    rmdir /S /Q dist
 
 
 $(SERVER_EXE): $(SERVER_IMPLEM_SRC) $(MIDL_OUT_H) $(MIDL_OUT_I)
