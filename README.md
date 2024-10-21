@@ -26,9 +26,9 @@ cmd.exe /k "%LOCALAPPDATA%\Programs\Common\Microsoft\Visual C++ for Python\9.0\v
 Example:
 
 ```
-cmd > cmd.exe /k "%LOCALAPPDATA%\Programs\Common\Microsoft\Visual C++ for Python\9.0\vcvarsall.bat" x64
+cmd> cmd.exe /k "%LOCALAPPDATA%\Programs\Common\Microsoft\Visual C++ for Python\9.0\vcvarsall.bat" x64
 Setting environment for using Microsoft Visual Studio 2008 x64 tools.
-cmd >
+cmd>
 ```
 
 The server and proxy DLL can then be compiled by launching `nmake` from the project directory in the previously open `cmd`.
