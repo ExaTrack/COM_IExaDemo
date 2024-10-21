@@ -17,7 +17,7 @@ import "objidl.idl";
 
 
 };
-
+// IDL description of the server CLSID
 [
     uuid(45786100-4343-4343-4343-434343434343),
     version(1.0)

@@ -1,6 +1,5 @@
 #include <windows.h>
 // #include <Objidlbase.h>
-// #include <combaseapi.h>
 #include "iexademo.h"
 
 #pragma comment(lib, "Ole32")
@@ -102,7 +101,6 @@ STDAPI IExaDemoImplem_add(IExaDemoImplem *this, unsigned int x, unsigned int y, 
 
 STDAPI IExaDemoImplem_print(IExaDemoImplem *this, wchar_t* msg) {
         printf("CALL:" __FUNCTION__ "\n");
-        printf("[" __FUNCTION__ "] POUET POUET\n");
         if (msg == NULL) {
             printf("[" __FUNCTION__ "] Msg: NULL\n");
         } else {
@@ -168,9 +166,9 @@ STDAPI MyFactory_CreateInstance(IClassFactory *this, IUnknown *punkOuter, REFIID
     }
 
     if (IsEqualIID(factoryGuid, &IID_IExaDemo) || IsEqualIID(factoryGuid, &IID_IUnknown)) {
-        printf("[" __FUNCTION__ "] CA MATCH !\n");
+        printf("[" __FUNCTION__ "] Known IID !\n");
 
-        thisout = GlobalAlloc(GMEM_FIXED, sizeof(IExaDemoImplem)); // malloc ?
+        thisout = GlobalAlloc(GMEM_FIXED, sizeof(IExaDemoImplem));
         thisout->lpVtbl = &IExaDemoImplem_Vtbl;
         thisout->last_res = 0;
         thisout->count = 1;
@@ -187,7 +185,7 @@ STDAPI MyFactory_CreateInstance(IClassFactory *this, IUnknown *punkOuter, REFIID
 
 STDAPI MyFactory_LockServer(IClassFactory *this, BOOL lock) {
     printf(__FUNCTION__ "\n");
-    printf("[" __FUNCTION__ "] LOCK LOCKLOCKLOCKLOCKLOCKLOCKLOCKLOCKLOCKLOCKLOCKLOCKLOCKLOCKLOCKLOCK\n");
+    printf("[" __FUNCTION__ "] Lock: %d\n", lock);
     return S_OK;
 }
 
@@ -209,45 +207,29 @@ int main(int argc, char *argv[]) {
     CLSID factoryClsId;
     DWORD dwRegister = 0;
     LPOLESTR x = NULL;
-    DWORD tst = 0;
-    ITypeLib* pTypeLib;
+    DWORD retinfo = 0;
     HRESULT hr;
 
-	// hr = LoadTypeLibEx(L"mycls.tlb", REGKIND_NONE , &pTypeLib);
-    // printf("hr = %x\n", hr);
-	// pTypeLib->lpVtbl->Release(pTypeLib);
-
-
     printf("CALL:" __FUNCTION__ "\n");
-
     printf("[" __FUNCTION__ "] Hello World !\n");
-    SleepEx(1000, 0);
-
-    // if (CLSIDFromString(L"43434343-4343-4343-4343-434343434343", &factoryClsId) != NOERROR) {
-        // printf("CLSIDFromString error !\n");
-        // SleepEx(1000, 0);
-        // return 1;
-    // }
 
     StringFromCLSID(&CLSID_ExaDemoSrv, &x);
     printf("[" __FUNCTION__ "] * factoryClsId: %ws !\n", x);
 
     // Initialize COM
-    // CoInitializeEx(NULL, COINIT_MULTITHREADED);
     CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
 
     g_hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 
     // Register our const factory !
-    // CoRegisterClassObject(factoryClsId, MyFactory, CLSCTX_LOCAL_SERVER, REGCLS_SUSPENDED|REGCLS_MULTIPLEUSE, &dwRegister);
     CoRegisterClassObject(&CLSID_ExaDemoSrv, &MyFactory, CLSCTX_LOCAL_SERVER, REGCLS_MULTIPLEUSE, &dwRegister);
     printf("[" __FUNCTION__ "] Register: %d\n", dwRegister);
 
-    printf("[" __FUNCTION__ "] Going to wait !\n");
-    // WaitForSingleObject(g_hEvent, INFINITE);
+    printf("[" __FUNCTION__ "] Going to wait & dispatch with CoWaitForMultipleHandles !\n");
 
     /* Wait & dispatch call in COINIT_APARTMENTTHREADED */
-    CoWaitForMultipleHandles(8, 0x100000, 1, &g_hEvent, &tst);
+    // 8 == COWAIT_DISPATCH_CALLS  in combaseapi.h (not present in VCForPython27.msi)
+    CoWaitForMultipleHandles(8 , 0x100000, 1, &g_hEvent, &retinfo);
     // CoRevokeClassObject(dwRegister);
     // CoUninitialize();
 }
