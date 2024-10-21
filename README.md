@@ -36,7 +36,7 @@ The server and proxy DLL can then be compiled by launching `nmake` from the proj
 Example:
 
 ```
-    C:\Users\WDAGUtilityAccount\Desktop\PublicLocalServer>nmake
+    C:\Users\WDAGUtilityAccount\Desktop\COM_IExaDemo>nmake
 
     Microsoft (R) Program Maintenance Utility Version 9.00.30729.01
     Copyright (C) Microsoft Corporation.  All rights reserved.
@@ -87,7 +87,7 @@ The client can then be tested using:
 The code output should look like:
 
 ```
-PublicLocalServer>py client.py
+COM_IExaDemo> py client.py
 CreateInstance 45786100-4343-4343-4343-434343434343
     OK: Got an IUnknown: <IUnknown at 0x1bb11c1d948>
 QueryInterface: IExaDemo.IID: 45786100-1111-2222-3333-445500000001
