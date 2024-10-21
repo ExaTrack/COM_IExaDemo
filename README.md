@@ -20,15 +20,15 @@ This project is meant to be compiled (and was tested) with `VCForPython27.msi` (
 Once installed, the x64 environment can be started from a `cmd.exe` with the command line:
 
 ```
-    cmd.exe /k "%LOCALAPPDATA%\Programs\Common\Microsoft\Visual C++ for Python\9.0\vcvarsall.bat" x64
+cmd.exe /k "%LOCALAPPDATA%\Programs\Common\Microsoft\Visual C++ for Python\9.0\vcvarsall.bat" x64
 ```
 
 Example:
 
 ```
-    cmd >cmd.exe /k "%LOCALAPPDATA%\Programs\Common\Microsoft\Visual C++ for Python\9.0\vcvarsall.bat" x64
-    Setting environment for using Microsoft Visual Studio 2008 x64 tools.
-    cmd >
+cmd > cmd.exe /k "%LOCALAPPDATA%\Programs\Common\Microsoft\Visual C++ for Python\9.0\vcvarsall.bat" x64
+Setting environment for using Microsoft Visual Studio 2008 x64 tools.
+cmd >
 ```
 
 The server and proxy DLL can then be compiled by launching `nmake` from the project directory in the previously open `cmd`.
@@ -36,21 +36,21 @@ The server and proxy DLL can then be compiled by launching `nmake` from the proj
 Example:
 
 ```
-    C:\Users\WDAGUtilityAccount\Desktop\COM_IExaDemo>nmake
+C:\Users\WDAGUtilityAccount\Desktop\COM_IExaDemo>nmake
 
-    Microsoft (R) Program Maintenance Utility Version 9.00.30729.01
-    Copyright (C) Microsoft Corporation.  All rights reserved.
+Microsoft (R) Program Maintenance Utility Version 9.00.30729.01
+Copyright (C) Microsoft Corporation.  All rights reserved.
 
-            midl /out .\dist\amd64 src\iexademo.idl
-    [...]
-    Generated .\dist\amd64\IExaDemo_server_64.exe
-    Generated .\dist\amd64\IExaDemo_proxy_64.dll
+        midl /out .\dist\amd64 src\iexademo.idl
+[...]
+Generated .\dist\amd64\IExaDemo_server_64.exe
+Generated .\dist\amd64\IExaDemo_proxy_64.dll
 ```
 
 The same thing can be done for a 32bits client & proxy dll with the following initial cmd.exe command line:
 
 ```
-    cmd.exe /k "%LOCALAPPDATA%\Programs\Common\Microsoft\Visual C++ for Python\9.0\vcvarsall.bat" x86`
+cmd.exe /k "%LOCALAPPDATA%\Programs\Common\Microsoft\Visual C++ for Python\9.0\vcvarsall.bat" x86`
 ```
 
 In this case : the resulting files will be:
@@ -104,14 +104,14 @@ If this doesn't work, check that your python bitness match the bitness of the pr
 The interface presented by the COM server, directly inherit `IUnknown` and present two additional methods:
 
 ```
-    HRESULT add(
-        [in] unsigned int x,
-        [in] unsigned int y,
-        [out] unsigned int *res
-    );
+HRESULT add(
+    [in] unsigned int x,
+    [in] unsigned int y,
+    [out] unsigned int *res
+);
 
-    HRESULT print(
-        [in][string] wchar_t* msg);
+HRESULT print(
+    [in][string] wchar_t* msg);
 ```
 
 Calling these methodes from any COM client should result in some debug priting in the server console.
@@ -120,18 +120,18 @@ Example entered at the end of `py -i client.py`:
 
 
 ```
-    # Python
-    >>> iexademo.add(0x12345678, 0x11111111, result)
-    # IExaDemo_server.exe OUTPUT:
-    CALL:IExaDemoImplem_add
-    [IExaDemoImplem_add] 0x12345678 + 0x11111111 = 0x23456789
+# Python
+>>> iexademo.add(0x12345678, 0x11111111, result)
+# IExaDemo_server.exe OUTPUT:
+CALL:IExaDemoImplem_add
+[IExaDemoImplem_add] 0x12345678 + 0x11111111 = 0x23456789
 
-    # Python
-    >>> iexademo.print("My string parameter !")
-    67372036
-    # IExaDemo_server.exe OUTPUT:
-    CALL:IExaDemoImplem_print
-    [IExaDemoImplem_print] Msg: <My string parameter !>
+# Python
+>>> iexademo.print("My string parameter !")
+67372036
+# IExaDemo_server.exe OUTPUT:
+CALL:IExaDemoImplem_print
+[IExaDemoImplem_print] Msg: <My string parameter !>
 ```
 
 ## References
