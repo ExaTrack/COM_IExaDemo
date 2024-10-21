@@ -3,7 +3,7 @@ import ctypes
 import windows.com
 import windows.generated_def as gdef
 
-windows.com.init()
+
 
 class IExaDemo(gdef.COMInterface):
     IID = gdef.generate_IID(0x45786100, 0x1111, 0x2222, 0x33, 0x33, 0x44, 0x55, 0x00, 0x00, 0x00, 0x01, name="IExaDemo", strid="45786100-1111-2222-3333-445500000001")
@@ -22,6 +22,8 @@ IExaDemo._functions_ = {
     }
 
 EXA_DEMO_SRV_CLSID = "45786100-4343-4343-4343-434343434343"
+
+windows.com.init()
 
 iunk = gdef.IUnknown()
 print("CreateInstance {0}".format(EXA_DEMO_SRV_CLSID))
