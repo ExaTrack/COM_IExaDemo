@@ -1,7 +1,7 @@
 # IExaDemo COM Local Server
 
 This repository contains the source code and Makefile necessary to compile the IExaDemo Local COM Server.
-This COM server is the base playground for our blog article [BLOG LINK] about DCOM & ALPC.
+This COM server is the base playground for our blog article https://blog.exatrack.com/STUBborn/ about DCOM & ALPC.
 
 It can also be of use for anyone looking to develop a working COM server in C and explore the inner working of LRPC/DCOM in a local computer. This project also aims to be a good example of a standalone Makefile for COM server & proxy compilation from the `.idl` and `.c` implementation files.
 The code should compile in both 32 bits & 64 bits.
@@ -15,7 +15,7 @@ This code exposes the `IExaDemo` interface (`45786100-1111-2222-3333-44550000000
 
 This project is meant to be compiled (and was tested) with `VCForPython27.msi` (Microsoft Visual C++ Compiler for Python 2.7 9.0.0.30729). This package is a good way to install a fully working Windows compilation chain without any heavy IDE & visual studio package :)
 
-`VCForPython27.msi` (sha256: 070474DB76A2E625513A5835DF4595DF9324D820F9CC97EAB2A596DCBC2F5CBF) can be found here : [TODO LINK]
+`VCForPython27.msi` (sha256: 070474DB76A2E625513A5835DF4595DF9324D820F9CC97EAB2A596DCBC2F5CBF) can be found here : https://github.com/ExaTrack/COM_IExaDemo/releases/download/VCForPython27-publish/VCForPython27.msi
 
 Once installed, the x64 environment can be started from a `cmd.exe` with the command line:
 
@@ -50,7 +50,7 @@ Generated .\dist\amd64\IExaDemo_proxy_64.dll
 The same thing can be done for a 32bits client & proxy dll with the following initial cmd.exe command line:
 
 ```
-cmd.exe /k "%LOCALAPPDATA%\Programs\Common\Microsoft\Visual C++ for Python\9.0\vcvarsall.bat" x86`
+cmd.exe /k "%LOCALAPPDATA%\Programs\Common\Microsoft\Visual C++ for Python\9.0\vcvarsall.bat" x86
 ```
 
 In this case : the resulting files will be:
@@ -58,7 +58,7 @@ In this case : the resulting files will be:
 - `.\dist\x86\IExaDemo_server_32.exe`
 - `.\dist\x86\IExaDemo_proxy_32.dll`
 
-The makefile also offer the following rules:
+The makefile also offers the following rules:
 
 - `nmake server` to only compile the server
 - `nmake proxy` to only compile the proxy DLL
@@ -68,7 +68,7 @@ The makefile also offer the following rules:
 The default rule of the makefile (`all`) only build the binaries. Three other rules allow installing them from the makefile:
 
 - `nmake install_server` to install the server via `reg add`
-- `nmake install_proxy` to install the proxy DLL `regsrv32`
+- `nmake install_proxy` to install the proxy DLL with `regsrv32`
 - `nmake install` to install both
 
 The installation must be done in an administrator shell, as it will write to `HKEY_CLASS_ROOT`.
@@ -138,6 +138,6 @@ CALL:IExaDemoImplem_print
 
 - https://learn.microsoft.com/en-us/windows/win32/com/registering-com-servers
 - https://learn.microsoft.com/en-us/previous-versions/windows/desktop/automat/hello-sample
-- https://www.codeproject.com/Articles/8679/Building-a-LOCAL-COM-Server-and-Client-A-Step-by-S [TODO: verif link]
+- https://www.codeproject.com/Articles/8679/Building-a-LOCAL-COM-Server-and-Client-A-Step-by-S
 - https://www.codeproject.com/Articles/13601/COM-in-plain-C#CLASS
 - https://github.com/hakril/PythonForWindows
