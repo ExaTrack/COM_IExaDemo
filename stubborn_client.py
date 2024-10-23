@@ -10,14 +10,17 @@ CLSID_ExaDemoSrv = gdef.GUID.from_string("45786100-4343-4343-4343-434343434343")
 
 windows.com.init()
 
+# Retrieve the COM Catalog to get a IComClassInfo
 comcatalog = gdef.IComCatalog()
-windows.com.create_instance("00000346-0000-0000-c000-000000000046", comcatalog) # Retrieve the COM Catalog to get a IComClassInfo
+windows.com.create_instance("00000346-0000-0000-c000-000000000046", comcatalog)
 
+# Retrieve the IComClassInfo on CLSID_ExaDemoSrv
 comclassinfo = gdef.IComClassInfo()
 comcatalog.GetClassInfo(CLSID_ExaDemoSrv, gdef.IComClassInfo.IID, comclassinfo)
 
+# Create an ActivationPropertiesIn
 propin = gdef.IActivationPropertiesIn()
-windows.com.create_instance("00000338-0000-0000-c000-000000000046", propin) # Create a ActivationPropertiesIn
+windows.com.create_instance("00000338-0000-0000-c000-000000000046", propin)
 
 # Query the interfaces we need to fill the ActivationPropertiesIn
 propin_init = propin.query(gdef.IInitActivationPropertiesIn)
@@ -28,7 +31,6 @@ propin_as_stage = propin.query(gdef.IActivationStageInfo)
 # Simple example : We directly ask for a pointer to an IID_IExaDemo
 # We could ask for a IUnknown and then use RemQueryInterface
 propin.AddRequestedIIDs(1, IID_IExaDemo)
-
 propin_init.SetClassInfo(ctypes.cast(comclassinfo, gdef.IUnknown))
 propin_init.SetClsctx(gdef.CLSCTX_LOCAL_SERVER)
 propin_as_stage.SetStageAndIndex(gdef.CLIENT_CONTEXT_STAGE, 0) # We are a Client activator
