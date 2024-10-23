@@ -115,4 +115,8 @@ orpcthat = gdef.ORPCTHAT32.from_buffer_copy(bytearray(addstream.read(ctypes.size
 localthat = gdef.LOCALTHAT32.from_buffer_copy(bytearray(addstream.read(ctypes.sizeof(gdef.LOCALTHAT32))))
 result = addstream.partial_unpack("<I")[0]
 assert result == 0x41414141 + 0x01010101
-print("Addition is OK !")
+print("Addition is OK : {0:#x} !".format(result))
+
+# Verify that the proxy DLL was never loaded in the process
+assert not [m for m in windows.current_process.peb.modules if "proxy" in m.name], "Proxy DLL was loaded :("
+print("Proxy DLL was never loaded !")
